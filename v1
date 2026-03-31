@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>퇴사 자가진단 — 지금이 맞는 타이밍일까?</title>
+  <meta name="description" content="감정이 아닌 데이터로 퇴사를 판단하세요. 15문항 퇴사 필요도 자가진단.">
+  <meta property="og:title" content="퇴사 자가진단">
+  <meta property="og:description" content="감정이 아닌 데이터로 퇴사를 판단하세요. 15문항 자가진단.">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #ede9fe;
+      --primary-dark: #3730a3;
+      --bg: #f5f5f7;
+      --white: #ffffff;
+      --text: #111827;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --red: #ef4444;
+      --orange: #f97316;
+      --amber: #f59e0b;
+      --green: #10b981;
+      --r: 16px;
+      --shadow: 0 1px 12px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+    }
+ 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Apple SD Gothic Neo', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+ 
+    #app {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 16px 96px;
+    }
+ 
+    /* ── PROGRESS ── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: rgba(245,245,247,0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 14px 0 10px;
+      z-index: 100;
+    }
+    .progress-bar {
+      height: 3px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--primary);
+      border-radius: 99px;
+      transition: width 0.5s cubic-bezier(.4,0,.2,1);
+    }
+    .step-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 7px;
+      display: flex;
+      justify-content: space-between;
+    }
+ 
+    /* ── CARDS ── */
+    .card {
+      background: var(--white);
+      border-radius: var(--r);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+    }
+ 
+    /* ── INTRO ── */
+    .intro-hero {
+      padding: 52px 0 20px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 5px 12px;
+      border-radius: 99px;
+      margin-bottom: 18px;
+    }
+    .intro-title {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+    .intro-sub {
+      font-size: 16px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 32px;
+    }
+    .meta-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 16px;
+    }
+    .meta-item {
+      font-size: 13px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+ 
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 15px 24px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      width: 100%;
+    }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary:disabled {
+      background: #c7d2fe;
+      cursor: not-allowed;
+    }
+    .btn-ghost {
+      background: var(--border);
+      color: var(--text);
+      flex: 1;
+    }
+    .btn-ghost:hover { background: #d1d5db; }
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .btn-row .btn-primary { flex: 2; }
+ 
+    /* ── BAN LIST ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .ban-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+    .ban-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 13px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+    .ban-item:hover { border-color: #fca5a5; }
+    .ban-item.checked { border-color: var(--red); background: #fff5f5; }
+    .ban-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 2px solid var(--border);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s;
+      margin-top: 1px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .ban-item.checked .ban-checkbox {
+      background: var(--red);
+      border-color: var(--red);
+      color: white;
+    }
+    .ban-text { font-size: 14px; line-height: 1.5; }
+    .alert-box {
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 16px;
+    }
+    .alert-red { background: #fff1f1; border: 1px solid #fecaca; }
+    .alert-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .alert-text {
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .alert-red .alert-title { color: var(--red); }
+    .alert-red .alert-text { color: #991b1b; }
+    .alert-red a { color: var(--red); font-weight: 600; text-decoration: none; }
+ 
+    /* ── CATEGORY HEADER ── */
+    .cat-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 22px;
+    }
+    .cat-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 11px;
+      background: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .cat-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 3px;
+    }
+    .cat-title { font-size: 20px; font-weight: 800; }
+ 
+    /* ── QUESTIONS ── */
+    .q-block { margin-bottom: 26px; }
+    .q-block:last-child { margin-bottom: 0; }
+    .q-text {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .q-num { color: var(--muted); font-weight: 400; margin-right: 4px; }
+    .scale-row { display: flex; gap: 5px; }
+    .scale-btn {
+      flex: 1;
+      padding: 11px 4px 10px;
+      border: 2px solid var(--border);
+      border-radius: 9px;
+      background: var(--white);
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.14s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .scale-btn:hover { border-color: var(--primary); }
+    .scale-btn.sel {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .scale-n {
+      font-size: 17px;
+      font-weight: 800;
+      display: block;
+      color: var(--muted);
+    }
+    .scale-btn.sel .scale-n { color: var(--primary); }
+    .scale-l {
+      font-size: 9px;
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      line-height: 1.2;
+    }
+    .scale-btn.sel .scale-l { color: var(--primary); }
+ 
+    /* ── RESULTS ── */
+    .result-hero {
+      text-align: center;
+      padding: 8px 0 16px;
+    }
+    .score-svg-wrap { margin-bottom: 14px; }
+    .result-level {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 13px;
+      border-radius: 99px;
+      margin-bottom: 10px;
+    }
+    .result-h { font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
+    .result-p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+ 
+    /* category bars */
+    .cat-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
+    .cat-bar-lbl { font-size: 13px; font-weight: 600; width: 68px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .cat-bar-track {
+      flex: 1;
+      height: 8px;
+      background: var(--border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .cat-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      width: 0%;
+      transition: width 0.9s cubic-bezier(.4,0,.2,1);
+    }
+    .cat-bar-score { font-size: 13px; font-weight: 700; width: 24px; text-align: right; }
+ 
+    /* type card */
+    .type-card {
+      border-radius: 12px;
+      padding: 18px;
+      background: var(--primary-light);
+      border: 1.5px solid #c7d2fe;
+    }
+    .type-eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary);
+      margin-bottom: 4px;
+    }
+    .type-name { font-size: 19px; font-weight: 800; margin-bottom: 8px; }
+    .type-desc { font-size: 14px; color: #4338ca; line-height: 1.6; margin-bottom: 12px; }
+    .type-tips { font-size: 13px; color: #3730a3; line-height: 1.8; }
+    .type-tip::before { content: '✦ '; }
+ 
+    /* action items */
+    .action-list { list-style: none; }
+    .action-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .action-item:last-child { border-bottom: none; }
+    .action-when {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--primary);
+      background: var(--primary-light);
+      padding: 3px 9px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .action-text { font-size: 14px; line-height: 1.55; }
+ 
+    /* crisis + disclaimer */
+    .note-box {
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-top: 14px;
+    }
+    .note-amber { background: #fffbeb; border: 1px solid #fde68a; }
+    .note-amber p { font-size: 13px; color: #92400e; line-height: 1.7; }
+    .note-amber a { color: #b45309; font-weight: 600; text-decoration: none; }
+    .disclaimer {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      padding: 20px 0 0;
+      line-height: 1.65;
+    }
+ 
+    /* ban-none */
+    .ban-none {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 14px;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+      background: #f9fafb;
+    }
+    .ban-none:hover { border-color: #6ee7b7; }
+    .ban-none.checked { border-color: var(--green); background: #f0fdf4; }
+    .ban-none .ban-checkbox { border-color: var(--border); }
+    .ban-none.checked .ban-checkbox { background: var(--green); border-color: var(--green); color: white; }
+    .ban-none-text { font-size: 14px; font-weight: 600; color: var(--muted); }
+    .ban-none.checked .ban-none-text { color: #065f46; }
+ 
+    /* type art */
+    .type-art {
+      font-size: 52px;
+      text-align: center;
+      margin-bottom: 12px;
+      line-height: 1;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.1));
+    }
+    .type-phrase {
+      background: rgba(255,255,255,0.6);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--primary-dark);
+      text-align: center;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+ 
+    /* ── ANIMATIONS ── */
+    .fade-in { animation: fi 0.3s ease; }
+    @keyframes fi {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+ 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 420px) {
+      .intro-title { font-size: 26px; }
+      .scale-l { display: none; }
+      .scale-btn { padding: 12px 2px; }
+      .cat-bar-lbl { width: 58px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+// ── DATA ─────────────────────────────────────────────────────────────
+ 
+const BAN_ITEMS = [
+  '임금 체불, 퇴직금 미지급, 불법 계약 강요를 당하고 있다',
+  '성희롱, 성추행, 스토킹, 차별, 직장 내 괴롭힘이 있다',
+  '폭언, 협박, 공개 망신, 보복성 인사가 반복된다',
+  '허위 보고·서류 조작 등 불법 행위를 강요받고 있다',
+  '산업안전 위반, 신체적 위험이 방치되고 있다',
+  '출근 생각만 해도 공황·구토·극심한 불안이 반복된다',
+  '자해 충동, 극단적인 생각, 또는 일상 기능 붕괴가 있다',
+];
+ 
+const CATS = [
+  {
+    id: 'A', icon: '🔋', name: '건강 / 소진',
+    art: '🪫',
+    phrase: '아침에 눈이 안 떠지는 건\n의지 문제가 아닙니다',
+    qs: [
+      '일 때문에 수면, 소화, 두통, 피로 등 신체 이상이 생긴다',
+      '주말이나 휴가를 써도 회복이 잘 되지 않는다',
+      '출근 전 불안, 짜증, 무기력, 신체 긴장이 반복된다',
+    ],
+    color: '#6366f1',
+    desc: '지금 필요한 건 더 열심히 버티는 게 아니라, 회복이 가능한 상태인지 확인하는 일일 수 있어요.',
+    tips: [
+      '수면·식사·신체 증상을 1~2주만 기록해보세요',
+      '회복이 안 된다면 직장이 원인일 가능성이 높습니다',
+      '먼저 쉬어야 하는지부터 판단해보세요',
+    ],
+  },
+  {
+    id: 'B', icon: '👥', name: '관계 / 조직문화',
+    art: '🐍🏢',
+    phrase: '일 자체는 할 만한데\n왜 이렇게 힘들지? → 사람 때문임',
+    qs: [
+      '상사와의 신뢰가 무너졌다고 느낀다',
+      '사내 정치, 편가르기, 희생양 만들기가 심하다',
+      '존중받지 못하거나 자주 무시당한다고 느낀다',
+    ],
+    color: '#ec4899',
+    desc: '지금 힘든 이유는 일이 아니라 관계 구조일 수 있어요. 혼자 잘한다고 해결되지 않는 경우가 많습니다.',
+    tips: [
+      '감정 해소보다 사실 기록이 먼저입니다',
+      '특정 인물 문제인지, 문화 전체 문제인지 구분해보세요',
+      '구조적 문제라면 내부 해결보다 이탈이 현실적일 수 있습니다',
+    ],
+  },
+  {
+    id: 'C', icon: '⚙️', name: '업무 구조',
+    art: '🏔️📋',
+    phrase: '투두리스트가 줄어든 적이 없습니다\n(내 역할: 응, 다 나야)',
+    qs: [
+      '업무량이 과도하거나 계속 감당 불가능한 수준으로 쌓인다',
+      '역할과 책임은 커지는데 권한과 지원은 부족하다',
+      '우선순위가 자주 바뀌고 기준이 계속 흔들린다',
+    ],
+    color: '#f97316',
+    desc: '열심히 하는 것으로 해결되지 않는 구조가 있을 수 있어요. 당신의 적응력보다 시스템 문제가 더 클 수 있습니다.',
+    tips: [
+      '업무량보다 업무 구조를 먼저 점검해보세요',
+      '역할·책임 범위를 문서로 정리해보세요',
+      '반복된다면 개인 문제가 아니라 시스템 문제입니다',
+    ],
+  },
+  {
+    id: 'D', icon: '📈', name: '보상 / 성장',
+    art: '🐹🎡',
+    phrase: '열심히 달리고 있는데\n커리어 그래프가 옆으로만 갑니다',
+    qs: [
+      '기여 대비 보상과 평가가 불공정하다고 느낀다',
+      '이 회사에 더 있어도 성장이나 경력 측면에서 의미가 없다',
+      '지금 하는 일이 내 장기 방향과 점점 더 멀어진다',
+    ],
+    color: '#10b981',
+    desc: '버티는 시간이 곧 손실이 되는 구간일 수 있어요. 잔류가 안전인지, 아니면 그냥 지연인지 점검해보세요.',
+    tips: [
+      '지금 회사에 남아서 얻는 것 3개를 적어보세요',
+      '외부 시장에서의 내 가치를 비교해보세요',
+      '이직 시장을 가볍게라도 탐색해보세요',
+    ],
+  },
+  {
+    id: 'E', icon: '💡', name: '가치관 / 안정성',
+    art: '😶‍🌫️💼',
+    phrase: '매일 조금씩 영혼을 갈아 넣는 중\n(잔여량: 미확인)',
+    qs: [
+      '회사의 방식이나 의사결정이 윤리적으로 불편하다',
+      '회사의 재무, 방향성, 리더십에 대한 불안이 크다',
+      '이 회사에 오래 있을수록 내가 더 나쁜 사람이 되는 것 같다',
+    ],
+    color: '#eab308',
+    desc: '지금 불편한 건 예민함이 아니라, 기준선이 흔들리고 있다는 신호일 수 있어요.',
+    tips: [
+      '참을 수 있는 불편과 넘지 못할 선을 구분해보세요',
+      '반복되는 윤리 마찰은 시간이 지나도 적응보다 소모로 이어집니다',
+      '가치관 충돌이 심하다면 퇴사 쪽 무게가 커집니다',
+    ],
+  },
+];
+ 
+const SCALE_LABELS = ['해당없음', '드물게', '가끔', '자주', '항상'];
+ 
+const LEVELS = [
+  {
+    min: 0, max: 14,
+    label: '적응 스트레스', color: '#059669', bg: '#d1fae5',
+    title: '지금은 조정이 먼저일 수 있어요',
+    desc: '현재 직장에 대한 불편이나 피로는 있지만, 당장 퇴사를 결정해야 할 만한 위험 신호는 크지 않아 보입니다. 휴식, 업무 방식 조정, 관계 정리만으로도 상태가 개선될 수 있어요.',
+    actions: [
+      { when: '오늘', text: '가장 힘들었던 순간 3개를 메모해보세요' },
+      { when: '이번 주', text: '업무량·수면·인간관계 중 핵심 문제가 무엇인지 구분해보세요' },
+      { when: '이번 달', text: '같은 문제가 반복되는지 체크해보세요' },
+    ],
+  },
+  {
+    min: 15, max: 24,
+    label: '경고 신호', color: '#d97706', bg: '#fef3c7',
+    title: '경고 신호가 쌓이고 있어요',
+    desc: '직장에 대한 피로와 불만이 누적되고 있습니다. 아직은 즉시 퇴사보다, 이 문제가 일시적인지 구조적인지 구분하는 단계에 가깝습니다. 같은 문제가 반복된다면 버티는 비용이 점점 커질 수 있어요.',
+    actions: [
+      { when: '오늘', text: '반복되는 스트레스 상황을 구체적으로 기록해보세요' },
+      { when: '이번 주', text: '상사·업무량·보상·성장 중 가장 큰 원인 하나를 골라보세요' },
+      { when: '이번 달', text: '2~4주 안에 바뀔 수 있는 문제인지 판단해보세요' },
+    ],
+  },
+  {
+    min: 25, max: 34,
+    label: '퇴사 검토 구간', color: '#ea580c', bg: '#ffedd5',
+    title: '퇴사를 현실적으로 검토할 시점이에요',
+    desc: '현재 직장 환경이 꽤 큰 피로를 만들고 있을 가능성이 높습니다. 당장 결론을 내리지 않더라도, 이직이나 퇴사를 포함한 현실적인 선택지를 열어둘 필요가 있습니다.',
+    actions: [
+      { when: '오늘', text: '이력서나 경력기술서 업데이트를 시작해보세요' },
+      { when: '이번 주', text: '회사에서 바뀔 수 있는 것과 없는 것을 나눠보세요' },
+      { when: '이번 달', text: '재정 여유와 다음 선택지를 함께 점검해보세요' },
+    ],
+  },
+  {
+    min: 35, max: 44,
+    label: '퇴사 준비 권고', color: '#dc2626', bg: '#fee2e2',
+    title: '지금 상태는 오래 버티기 어려울 수 있어요',
+    desc: '단순 불만을 넘어, 현재 직장 환경이 건강·관계·커리어에 실제 손실을 주고 있을 가능성이 큽니다. 내부 조정이 잘 되지 않는다면, 이탈 준비를 본격화하는 편이 좋습니다.',
+    actions: [
+      { when: '오늘', text: '믿을 수 있는 사람 1명과 현재 상태를 공유해보세요' },
+      { when: '이번 주', text: '퇴사 전 필요한 생활비와 안전장치를 계산해보세요' },
+      { when: '이번 달', text: '남을지 떠날지보다, 떠날 수 있는 준비부터 시작해보세요' },
+    ],
+  },
+  {
+    min: 45, max: 60,
+    label: '고위험 구간', color: '#b91c1c', bg: '#fef2f2',
+    title: '빠른 이탈 전략이 필요할 수 있어요',
+    desc: '현재 직장 환경이 건강, 존중감, 커리어에 큰 부담을 주고 있을 가능성이 높습니다. 버티는 시간이 회복이 아니라 소모로 이어질 가능성이 높아요. 가능하다면 빠르게 안전장치를 만들고 이탈 전략을 구체화하세요.',
+    actions: [
+      { when: '오늘', text: '내 상태를 믿을 수 있는 사람 1명에게 공유해보세요' },
+      { when: '이번 주', text: '재정·일정·이력서 중 하나부터 정리해보세요' },
+      { when: '이번 달', text: '빠르게 떠나야 하는 상황인지 현실적으로 검토해보세요' },
+    ],
+  },
+];
+ 
+// ── STATE ─────────────────────────────────────────────────────────────
+ 
+let S = {
+  step: 0,              // 0=intro 1=banlist 2-6=cats 7=results
+  ban: new Array(7).fill(false),
+  banNone: false,
+  ans: new Array(15).fill(null),
+};
+ 
+// ── HELPERS ─────────────────────────────────────────────────────────
+ 
+function pct() { return S.step === 0 ? 0 : Math.round((S.step / 7) * 100); }
+ 
+const STEP_NAMES = ['', '경고 항목 확인', '건강·소진', '관계·조직', '업무 구조', '보상·성장', '가치관', '결과'];
+ 
+function catScores() {
+  return CATS.map((_, i) => {
+    const base = i * 3;
+    return (S.ans[base] || 0) + (S.ans[base+1] || 0) + (S.ans[base+2] || 0);
+  });
+}
+ 
+function total() { return S.ans.reduce((s, v) => s + (v || 0), 0); }
+ 
+function getLevel(score) {
+  return LEVELS.find(l => score >= l.min && score <= l.max) || LEVELS[0];
+}
+ 
+function dominantCat() {
+  const scores = catScores();
+  const max = Math.max(...scores);
+  if (max === 0) return null;
+  const idx = scores.indexOf(max);
+  return { ...CATS[idx], score: max };
+}
+ 
+// ── RENDER HELPERS ───────────────────────────────────────────────────
+ 
+function topbar() {
+  if (S.step === 0) return '';
+  const p = pct();
+  const name = STEP_NAMES[S.step] || '';
+  return `<div class="topbar">
+    <div class="progress-bar"><div class="progress-fill" style="width:${p}%"></div></div>
+    <div class="step-label"><span>${name}</span><span>${p}%</span></div>
+  </div>`;
+}
+ 
+// SVG Score Circle
+function scoreSVG(score, color) {
+  const r = 52, cx = 60, cy = 60;
+  const circ = 2 * Math.PI * r;
+  const filled = circ * (score / 60);
+  const empty = circ - filled;
+  return `<svg width="120" height="120" viewBox="0 0 120 120">
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#e5e7eb" stroke-width="9"/>
+    <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${color}" stroke-width="9"
+      stroke-dasharray="${filled} ${empty}" stroke-dashoffset="${circ / 4}"
+      stroke-linecap="round" style="transition:stroke-dasharray 1s ease"/>
+    <text x="${cx}" y="${cy - 6}" text-anchor="middle" font-size="30" font-weight="800"
+      fill="${color}" font-family="-apple-system,sans-serif">${score}</text>
+    <text x="${cx}" y="${cy + 14}" text-anchor="middle" font-size="12" fill="#9ca3af"
+      font-family="-apple-system,sans-serif">/ 60</text>
+  </svg>`;
+}
+ 
+// ── PAGES ────────────────────────────────────────────────────────────
+ 
+function pageIntro() {
+  return `${topbar()}
+  <div class="intro-hero fade-in">
+    <div class="badge">퇴사 자가진단</div>
+    <h1 class="intro-title">퇴사해? 말아?</h1>
+    <p style="font-size:15px;color:var(--muted);margin-top:-8px;margin-bottom:10px;">지금 퇴사해도 괜찮을까요?</p>
+    <p class="intro-sub">감정이 아닌 데이터로 판단하세요.<br>단 3분, 15문항으로 퇴사 필요도와 유형을 분석합니다.</p>
+    <button class="btn btn-primary" onclick="go(1)">진단 시작하기 →</button>
+  </div>
+  <div class="card fade-in" style="margin-top:16px;">
+    <div class="meta-row" style="flex-direction:column;gap:10px;align-items:flex-start;">
+      <div class="meta-item">⏱ &nbsp;소요 시간 약 3분</div>
+      <div class="meta-item">📋 &nbsp;최근 4주를 기준으로 응답해주세요</div>
+      <div class="meta-item">🔒 &nbsp;모든 데이터는 기기에서만 처리됩니다</div>
+    </div>
+  </div>
+  <p class="disclaimer">이 도구는 참고용이며, 전문적인 법률·의료·정신건강 상담을 대체하지 않습니다.</p>`;
+}
+ 
+function pageBanList() {
+  const hasFlag = S.ban.some(Boolean);
+  const canProceed = hasFlag || S.banNone;
+  return `${topbar()}
+  <div class="card fade-in">
+    <div class="section-label">Step 1 — 즉시 경고 항목</div>
+    <p class="ban-desc">아래 항목은 점수와 별개입니다. 하나라도 해당하면 외부 도움이 먼저일 수 있어요.</p>
+    ${BAN_ITEMS.map((item, i) => `
+      <div class="ban-item ${S.ban[i] ? 'checked' : ''}" onclick="toggleBan(${i})">
+        <div class="ban-checkbox">${S.ban[i] ? '✓' : ''}</div>
+        <span class="ban-text">${item}</span>
+      </div>`).join('')}
+    <div class="ban-none ${S.banNone ? 'checked' : ''}" onclick="toggleNone()">
+      <div class="ban-checkbox">${S.banNone ? '✓' : ''}</div>
+      <span class="ban-none-text">✌️ 해당 없음 — 위 항목 모두 해당되지 않습니다</span>
+    </div>
+    ${hasFlag ? `<div class="alert-box alert-red" style="margin-top:14px;">
+      <div class="alert-title">⚠️ 일반적인 직장 스트레스 수준이 아닐 수 있어요</div>
+      <div class="alert-text">
+        점수 계산과 별개로 <strong>기록 확보·외부 상담·이탈 준비</strong>를 먼저 검토하세요.<br><br>
+        📞 노동 상담 <a href="tel:1350">1350</a> (고용노동부)<br>
+        📞 정신건강 위기상담 <a href="tel:15770199">1577-0199</a><br>
+        📞 자살예방상담전화 <a href="tel:1393">1393</a>
+      </div>
+    </div>` : ''}
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="go(0)">← 이전</button>
+    <button class="btn btn-primary" onclick="go(2)" ${!canProceed ? 'disabled' : ''}>다음 → 본 진단 시작</button>
+  </div>
+  <p class="disclaimer">항목을 선택해야 다음으로 진행할 수 있어요</p>`;
+}
+ 
+function pageCat(ci) {
+  const cat = CATS[ci];
+  const base = ci * 3;
+  const allDone = cat.qs.every((_, i) => S.ans[base + i] !== null);
+  const isLast = ci === 4;
+  return `${topbar()}
+  <div class="card fade-in">
+    <div class="cat-header">
+      <div class="cat-icon-wrap">${cat.icon}</div>
+      <div>
+        <div class="cat-eyebrow">영역 ${cat.id} / E</div>
+        <div class="cat-title">${cat.name}</div>
+      </div>
+    </div>
+    ${cat.qs.map((q, i) => {
+      const qi = base + i;
+      const v = S.ans[qi];
+      return `<div class="q-block">
+        <div class="q-text"><span class="q-num">Q${qi + 1}.</span>${q}</div>
+        <div class="scale-row">
+          ${SCALE_LABELS.map((lbl, sc) => `
+            <button class="scale-btn ${v === sc ? 'sel' : ''}" onclick="setAns(${qi},${sc})">
+              <span class="scale-n">${sc}</span>
+              <span class="scale-l">${lbl}</span>
+            </button>`).join('')}
+        </div>
+      </div>`;
+    }).join('')}
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ghost" onclick="go(${ci + 1})">← 이전</button>
+    <button class="btn btn-primary" onclick="go(${ci + 3})" ${!allDone ? 'disabled' : ''}>
+      ${isLast ? '결과 보기 →' : '다음 →'}
+    </button>
+  </div>
+  <p class="disclaimer">0 = 해당없음 &nbsp;|&nbsp; 4 = 항상 그렇다</p>`;
+}
+ 
+function pageResults() {
+  const score = total();
+  const lv = getLevel(score);
+  const cs = catScores();
+  const dom = dominantCat();
+  const hasBan = S.ban.some(Boolean);
+ 
+  return `${topbar()}
+  ${hasBan ? `<div class="card fade-in" style="border:2px solid #fecaca;margin-top:16px;">
+    <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⚠️ 즉시 경고 항목이 있었어요</div>
+    <p style="font-size:13px;color:#991b1b;line-height:1.65;">아래 점수와 별개로, 해당 항목은 외부 상담을 먼저 검토하세요.<br>
+    📞 노동 상담 <a href="tel:1350" style="color:var(--red);font-weight:600;">1350</a> &nbsp;|&nbsp;
+    📞 위기상담 <a href="tel:1393" style="color:var(--red);font-weight:600;">1393</a></p>
+  </div>` : ''}
+ 
+  <div class="card fade-in">
+    <div class="result-hero">
+      <div class="score-svg-wrap">${scoreSVG(score, lv.color)}</div>
+      <span class="result-level" style="background:${lv.bg};color:${lv.color}">${lv.label}</span>
+      <h2 class="result-h">${lv.title}</h2>
+      <p class="result-p">${lv.desc}</p>
+    </div>
+  </div>
+ 
+  <div class="card fade-in">
+    <div class="section-label" style="margin-bottom:16px;">영역별 점수</div>
+    ${CATS.map((cat, i) => `
+      <div class="cat-bar">
+        <div class="cat-bar-lbl">${cat.icon} ${cat.name.split(' / ')[0]}</div>
+        <div class="cat-bar-track">
+          <div class="cat-bar-fill" id="bar${i}" style="background:${cat.color};width:0%"></div>
+        </div>
+        <div class="cat-bar-score" style="color:${cat.color}">${cs[i]}</div>
+      </div>`).join('')}
+    <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right;">영역별 최대 12점</p>
+  </div>
+ 
+  ${dom ? `<div class="card fade-in">
+    <div class="section-label" style="margin-bottom:14px;">주요 유형</div>
+    <div class="type-card">
+      <div class="type-art">${dom.art}</div>
+      <div class="type-phrase">${dom.phrase.replace(/\n/g, '<br>')}</div>
+      <div class="type-eyebrow">가장 높은 영역</div>
+      <div class="type-name">${dom.icon} ${dom.name}형</div>
+      <div class="type-desc">${dom.desc}</div>
+      <div class="type-tips">${dom.tips.map(t => `<div class="type-tip">${t}</div>`).join('')}</div>
+    </div>
+  </div>` : ''}
+ 
+  <div class="card fade-in">
+    <div class="section-label" style="margin-bottom:4px;">지금 할 일</div>
+    <ul class="action-list">
+      ${lv.actions.map(a => `<li class="action-item">
+        <span class="action-when">${a.when}</span>
+        <span class="action-text">${a.text}</span>
+      </li>`).join('')}
+    </ul>
+  </div>
+ 
+  <div class="note-box note-amber fade-in">
+    <p>💬 <strong>2주 뒤에 다시 체크해보세요.</strong><br>
+    같은 점수가 유지되거나 올라간다면 구조적인 문제일 가능성이 높습니다.<br><br>
+    이 결과는 전문적인 법률·의료 상담을 대체하지 않습니다.
+    노동 관련 문제는 <a href="tel:1350">1350</a>(고용노동부),
+    정신건강 위기는 <a href="tel:1393">1393</a>으로 연락해보세요.</p>
+  </div>
+ 
+  <div class="btn-row" style="margin-top:16px;">
+    <button class="btn btn-ghost" onclick="restart()">다시 진단하기</button>
+    <button class="btn btn-primary" onclick="shareResult(${score}, '${lv.label}')">결과 공유하기</button>
+  </div>
+  <p class="disclaimer">이 도구는 참고용이며, 전문적인 법률·의료·정신건강 상담을 대체하지 않습니다.</p>`;
+}
+ 
+// ── RENDER ───────────────────────────────────────────────────────────
+ 
+function render() {
+  const app = document.getElementById('app');
+  const html = (() => {
+    switch (S.step) {
+      case 0: return pageIntro();
+      case 1: return pageBanList();
+      case 2: return pageCat(0);
+      case 3: return pageCat(1);
+      case 4: return pageCat(2);
+      case 5: return pageCat(3);
+      case 6: return pageCat(4);
+      case 7: return pageResults();
+    }
+  })();
+  app.innerHTML = html;
+ 
+  // animate bars on results page
+  if (S.step === 7) {
+    const cs = catScores();
+    requestAnimationFrame(() => {
+      CATS.forEach((_, i) => {
+        const el = document.getElementById('bar' + i);
+        if (el) el.style.width = Math.round((cs[i] / 12) * 100) + '%';
+      });
+    });
+  }
+}
+ 
+// ── EVENTS ───────────────────────────────────────────────────────────
+ 
+function go(step) {
+  S.step = step;
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+ 
+function toggleBan(i) {
+  S.ban[i] = !S.ban[i];
+  if (S.ban[i]) S.banNone = false;
+  render();
+}
+ 
+function toggleNone() {
+  S.banNone = !S.banNone;
+  if (S.banNone) S.ban = new Array(7).fill(false);
+  render();
+}
+ 
+function setAns(qi, sc) {
+  S.ans[qi] = sc;
+  render();
+}
+ 
+function restart() {
+  S = { step: 0, ban: new Array(7).fill(false), banNone: false, ans: new Array(15).fill(null) };
+  render();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+ 
+function shareResult(score, label) {
+  const text = `퇴사 자가진단 결과: ${score}/60점 (${label})\n감정이 아닌 데이터로 퇴사를 판단해보세요!`;
+  if (navigator.share) {
+    navigator.share({ title: '퇴사 자가진단', text }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => alert('결과가 클립보드에 복사됐어요!'));
+  } else {
+    alert(text);
+  }
+}
+ 
+// ── INIT ─────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
+ 
