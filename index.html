@@ -1048,18 +1048,39 @@ function restart() {
 }
 
 function shareResult(score, label) {
-  const text = `퇴사 자가진단 결과: ${score}/60점 (${label})\n감정이 아닌 데이터로 퇴사를 판단해보세요!`;
+  // 답변 15개를 URL 해시로 인코딩
+  const encoded = S.ans.map(v => v ?? 0).join(',');
+  const url = `${location.origin}${location.pathname}#r=${encoded}`;
+
   if (navigator.share) {
-    navigator.share({ title: '퇴사 자가진단', text }).catch(() => {});
+    navigator.share({
+      title: '퇴사 자가진단 결과',
+      text: `나의 퇴사 필요도: ${score}/60점 (${label})\n너도 해봐 →`,
+      url,
+    }).catch(() => {});
   } else if (navigator.clipboard) {
-    navigator.clipboard.writeText(text).then(() => alert('결과가 클립보드에 복사됐어요!'));
+    navigator.clipboard.writeText(url).then(() => alert('결과 링크가 복사됐어요!\n친구에게 공유해보세요 🐱'));
   } else {
-    alert(text);
+    prompt('아래 링크를 복사해서 공유하세요', url);
   }
 }
 
 // ── INIT ─────────────────────────────────────────────────────────────
-render();
+
+// URL 해시에 결과값이 있으면 바로 결과 화면으로
+(function initFromHash() {
+  const hash = location.hash;
+  const match = hash.match(/^#r=([\d,]+)$/);
+  if (!match) { render(); return; }
+
+  const vals = match[1].split(',').map(Number);
+  if (vals.length !== 15) { render(); return; }
+
+  S.ans = vals;
+  S.banNone = true; // ban list는 없음으로 처리
+  S.step = 7;
+  render();
+})();
 </script>
 </body>
 </html>
