@@ -24,22 +24,22 @@
       --r: 16px;
       --shadow: 0 1px 12px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
     }
- 
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
- 
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Apple SD Gothic Neo', sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
     }
- 
+
     #app {
       max-width: 600px;
       margin: 0 auto;
       padding: 0 16px 96px;
     }
- 
+
     /* ── PROGRESS ── */
     .topbar {
       position: sticky;
@@ -69,7 +69,7 @@
       display: flex;
       justify-content: space-between;
     }
- 
+
     /* ── CARDS ── */
     .card {
       background: var(--white);
@@ -78,7 +78,7 @@
       box-shadow: var(--shadow);
       margin-top: 16px;
     }
- 
+
     /* ── INTRO ── */
     .intro-hero {
       padding: 52px 0 20px;
@@ -124,7 +124,7 @@
       align-items: center;
       gap: 5px;
     }
- 
+
     /* ── BUTTONS ── */
     .btn {
       display: inline-flex;
@@ -163,7 +163,7 @@
       margin-top: 20px;
     }
     .btn-row .btn-primary { flex: 2; }
- 
+
     /* ── BAN LIST ── */
     .section-label {
       font-size: 11px;
@@ -231,7 +231,7 @@
     .alert-red .alert-title { color: var(--red); }
     .alert-red .alert-text { color: #991b1b; }
     .alert-red a { color: var(--red); font-weight: 600; text-decoration: none; }
- 
+
     /* ── CATEGORY HEADER ── */
     .cat-header {
       display: flex;
@@ -259,7 +259,7 @@
       margin-bottom: 3px;
     }
     .cat-title { font-size: 20px; font-weight: 800; }
- 
+
     /* ── QUESTIONS ── */
     .q-block { margin-bottom: 26px; }
     .q-block:last-child { margin-bottom: 0; }
@@ -302,7 +302,7 @@
       line-height: 1.2;
     }
     .scale-btn.sel .scale-l { color: var(--primary); }
- 
+
     /* ── RESULTS ── */
     .result-hero {
       text-align: center;
@@ -319,7 +319,7 @@
     }
     .result-h { font-size: 22px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.01em; }
     .result-p { font-size: 14px; color: var(--muted); line-height: 1.65; }
- 
+
     /* category bars */
     .cat-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 11px; }
     .cat-bar-lbl { font-size: 13px; font-weight: 600; width: 68px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -337,7 +337,7 @@
       transition: width 0.9s cubic-bezier(.4,0,.2,1);
     }
     .cat-bar-score { font-size: 13px; font-weight: 700; width: 24px; text-align: right; }
- 
+
     /* type card */
     .type-card {
       border-radius: 12px;
@@ -357,7 +357,7 @@
     .type-desc { font-size: 14px; color: #4338ca; line-height: 1.6; margin-bottom: 12px; }
     .type-tips { font-size: 13px; color: #3730a3; line-height: 1.8; }
     .type-tip::before { content: '✦ '; }
- 
+
     /* action items */
     .action-list { list-style: none; }
     .action-item {
@@ -380,7 +380,7 @@
       margin-top: 1px;
     }
     .action-text { font-size: 14px; line-height: 1.55; }
- 
+
     /* crisis + disclaimer */
     .note-box {
       border-radius: 10px;
@@ -397,7 +397,7 @@
       padding: 20px 0 0;
       line-height: 1.65;
     }
- 
+
     /* ban-none */
     .ban-none {
       display: flex;
@@ -418,7 +418,7 @@
     .ban-none.checked .ban-checkbox { background: var(--green); border-color: var(--green); color: white; }
     .ban-none-text { font-size: 14px; font-weight: 600; color: var(--muted); }
     .ban-none.checked .ban-none-text { color: #065f46; }
- 
+
     /* type art */
     .type-art {
       font-size: 52px;
@@ -438,14 +438,77 @@
       margin-bottom: 14px;
       line-height: 1.4;
     }
- 
+
     /* ── ANIMATIONS ── */
     .fade-in { animation: fi 0.3s ease; }
     @keyframes fi {
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
     }
- 
+
+    /* ── FUN CARD ── */
+    .fun-card {
+      background: linear-gradient(145deg, #fffde7, #fff3cd);
+      border-radius: 20px;
+      padding: 28px 20px 22px;
+      text-align: center;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+      margin-top: 16px;
+      border: 1.5px solid #ffe082;
+    }
+    .fun-cat {
+      font-size: 72px;
+      display: block;
+      margin-bottom: 6px;
+      line-height: 1;
+      filter: drop-shadow(2px 4px 8px rgba(0,0,0,0.12));
+    }
+    .fun-mood {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 800;
+      color: #7c5800;
+      background: rgba(0,0,0,0.07);
+      padding: 3px 11px;
+      border-radius: 99px;
+      margin-bottom: 14px;
+      letter-spacing: 0.03em;
+    }
+    .fun-headline {
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.35;
+      color: #1a1208;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+      white-space: pre-line;
+    }
+    .fun-sub {
+      font-size: 14px;
+      color: #6d4c00;
+      line-height: 1.65;
+      margin-bottom: 18px;
+      white-space: pre-line;
+    }
+    .fun-score-wrap {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 3px;
+      background: rgba(0,0,0,0.08);
+      padding: 7px 18px;
+      border-radius: 99px;
+    }
+    .fun-score-n {
+      font-size: 28px;
+      font-weight: 900;
+      color: #1a1208;
+    }
+    .fun-score-denom {
+      font-size: 14px;
+      color: #7c5800;
+      font-weight: 600;
+    }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 420px) {
       .intro-title { font-size: 26px; }
@@ -459,7 +522,7 @@
 <div id="app"></div>
 <script>
 // ── DATA ─────────────────────────────────────────────────────────────
- 
+
 const BAN_ITEMS = [
   '임금 체불, 퇴직금 미지급, 불법 계약 강요를 당하고 있다',
   '성희롱, 성추행, 스토킹, 차별, 직장 내 괴롭힘이 있다',
@@ -469,7 +532,7 @@ const BAN_ITEMS = [
   '출근 생각만 해도 공황·구토·극심한 불안이 반복된다',
   '자해 충동, 극단적인 생각, 또는 일상 기능 붕괴가 있다',
 ];
- 
+
 const CATS = [
   {
     id: 'A', icon: '🔋', name: '건강 / 소진',
@@ -557,12 +620,15 @@ const CATS = [
     ],
   },
 ];
- 
+
 const SCALE_LABELS = ['해당없음', '드물게', '가끔', '자주', '항상'];
- 
+
 const LEVELS = [
   {
     min: 0, max: 14,
+    cat: '🐱', mood: '아직 괜찮은 냥',
+    headline: '아직은 버틸 만한\n환경이에요',
+    funSub: '당신이 예민한 게 아닙니다.\n그냥 회사가 딱 그 정도인 거예요.\n(나 사실 회사랑 잘 맞을지도?)',
     label: '적응 스트레스', color: '#059669', bg: '#d1fae5',
     title: '지금은 조정이 먼저일 수 있어요',
     desc: '현재 직장에 대한 불편이나 피로는 있지만, 당장 퇴사를 결정해야 할 만한 위험 신호는 크지 않아 보입니다. 휴식, 업무 방식 조정, 관계 정리만으로도 상태가 개선될 수 있어요.',
@@ -574,6 +640,9 @@ const LEVELS = [
   },
   {
     min: 15, max: 24,
+    cat: '😾', mood: '슬슬 이상한 냥',
+    headline: '기분 탓이 아닙니다\n실제로 좀 이상한 거 맞아요',
+    funSub: '당신이 예민한 게 아닙니다.\n환경이 슬슬 당신을 갉아먹고 있어요.',
     label: '경고 신호', color: '#d97706', bg: '#fef3c7',
     title: '경고 신호가 쌓이고 있어요',
     desc: '직장에 대한 피로와 불만이 누적되고 있습니다. 아직은 즉시 퇴사보다, 이 문제가 일시적인지 구조적인지 구분하는 단계에 가깝습니다. 같은 문제가 반복된다면 버티는 비용이 점점 커질 수 있어요.',
@@ -585,6 +654,9 @@ const LEVELS = [
   },
   {
     min: 25, max: 34,
+    cat: '🙀', mood: '진지하게 고민할 냥',
+    headline: '열심히 한 건 당신인데\n이상한 건 회사입니다',
+    funSub: '이쯤 되면 의지 문제가 아닙니다.\n구조가 잘못된 거예요.',
     label: '퇴사 검토 구간', color: '#ea580c', bg: '#ffedd5',
     title: '퇴사를 현실적으로 검토할 시점이에요',
     desc: '현재 직장 환경이 꽤 큰 피로를 만들고 있을 가능성이 높습니다. 당장 결론을 내리지 않더라도, 이직이나 퇴사를 포함한 현실적인 선택지를 열어둘 필요가 있습니다.',
@@ -596,6 +668,9 @@ const LEVELS = [
   },
   {
     min: 35, max: 44,
+    cat: '😿', mood: '한계가 온 냥',
+    headline: '이 정도면 솔직히\n회사가 잘못한 거 맞아요',
+    funSub: '당신이 나약한 게 아닙니다.\n이 환경이 가혹한 겁니다.',
     label: '퇴사 준비 권고', color: '#dc2626', bg: '#fee2e2',
     title: '지금 상태는 오래 버티기 어려울 수 있어요',
     desc: '단순 불만을 넘어, 현재 직장 환경이 건강·관계·커리어에 실제 손실을 주고 있을 가능성이 큽니다. 내부 조정이 잘 되지 않는다면, 이탈 준비를 본격화하는 편이 좋습니다.',
@@ -607,6 +682,9 @@ const LEVELS = [
   },
   {
     min: 45, max: 60,
+    cat: '💀', mood: '배터리 0% 냥',
+    headline: '당신 문제 아닙니다\n진짜로요',
+    funSub: '이건 의지나 노력의 문제가 아닙니다.\n지금 당장 탈출 계획이 필요해요.',
     label: '고위험 구간', color: '#b91c1c', bg: '#fef2f2',
     title: '빠른 이탈 전략이 필요할 수 있어요',
     desc: '현재 직장 환경이 건강, 존중감, 커리어에 큰 부담을 주고 있을 가능성이 높습니다. 버티는 시간이 회복이 아니라 소모로 이어질 가능성이 높아요. 가능하다면 빠르게 안전장치를 만들고 이탈 전략을 구체화하세요.',
@@ -617,35 +695,68 @@ const LEVELS = [
     ],
   },
 ];
- 
+
 // ── STATE ─────────────────────────────────────────────────────────────
- 
+
 let S = {
   step: 0,              // 0=intro 1=banlist 2-6=cats 7=results
   ban: new Array(7).fill(false),
   banNone: false,
   ans: new Array(15).fill(null),
 };
- 
+
 // ── HELPERS ─────────────────────────────────────────────────────────
- 
+
 function pct() { return S.step === 0 ? 0 : Math.round((S.step / 7) * 100); }
- 
+
 const STEP_NAMES = ['', '경고 항목 확인', '건강·소진', '관계·조직', '업무 구조', '보상·성장', '가치관', '결과'];
- 
+
 function catScores() {
   return CATS.map((_, i) => {
     const base = i * 3;
     return (S.ans[base] || 0) + (S.ans[base+1] || 0) + (S.ans[base+2] || 0);
   });
 }
- 
+
 function total() { return S.ans.reduce((s, v) => s + (v || 0), 0); }
- 
+
 function getLevel(score) {
   return LEVELS.find(l => score >= l.min && score <= l.max) || LEVELS[0];
 }
- 
+
+// 특정 영역이 심각할 때 레벨을 상향 조정
+function getEffectiveLevel(score, cs) {
+  const base = getLevel(score);
+  const baseIdx = LEVELS.indexOf(base);
+  const healthScore = cs[0];
+  const highCatCount = cs.filter(s => s >= 9).length;
+
+  let bumpIdx = baseIdx;
+  // 건강 10점 이상 → 최소 "퇴사 검토 구간"(index 2)
+  if (healthScore >= 10) bumpIdx = Math.max(bumpIdx, 2);
+  // 건강 12점 만점 → 최소 "퇴사 준비 권고"(index 3)
+  if (healthScore >= 12) bumpIdx = Math.max(bumpIdx, 3);
+  // 2개 이상 영역 9점↑ → 한 단계 상향
+  if (highCatCount >= 2) bumpIdx = Math.min(bumpIdx + 1, LEVELS.length - 1);
+
+  return LEVELS[bumpIdx];
+}
+
+// 10점 이상인 영역별 긴급 경고 메시지
+const CAT_CRITICAL_MSGS = [
+  { label: '건강·소진', msg: '신체 증상이 나타나고 있다면 퇴사 결정보다 먼저 진료와 휴식 확보가 우선입니다. 몸이 먼저 퇴사 신청을 하고 있는 상태일 수 있어요.' },
+  { label: '관계·조직', msg: '이 수준의 관계 스트레스는 혼자 잘한다고 해결되지 않습니다. 구조 자체가 문제일 가능성이 높아요.' },
+  { label: '업무 구조', msg: '개인 역량으로 감당할 수 있는 한계를 이미 넘었을 수 있어요. 이건 당신 문제가 아니라 시스템이 잘못된 겁니다.' },
+  { label: '보상·성장', msg: '시간이 갈수록 잃는 것이 더 많아지는 상태예요. 지금 이 자리가 안전이 아니라 지연일 수 있어요.' },
+  { label: '가치관·안정성', msg: '이 환경이 당신을 조금씩 바꾸고 있어요. 이 상태가 길어지면 자기 자신을 잃어버릴 수 있습니다.' },
+];
+
+function getCriticalWarnings(cs) {
+  return cs
+    .map((s, i) => s >= 10 ? { ...CAT_CRITICAL_MSGS[i], score: s, icon: CATS[i].icon } : null)
+    .filter(Boolean);
+}
+
 function dominantCat() {
   const scores = catScores();
   const max = Math.max(...scores);
@@ -653,9 +764,9 @@ function dominantCat() {
   const idx = scores.indexOf(max);
   return { ...CATS[idx], score: max };
 }
- 
+
 // ── RENDER HELPERS ───────────────────────────────────────────────────
- 
+
 function topbar() {
   if (S.step === 0) return '';
   const p = pct();
@@ -665,7 +776,7 @@ function topbar() {
     <div class="step-label"><span>${name}</span><span>${p}%</span></div>
   </div>`;
 }
- 
+
 // SVG Score Circle
 function scoreSVG(score, color) {
   const r = 52, cx = 60, cy = 60;
@@ -683,9 +794,9 @@ function scoreSVG(score, color) {
       font-family="-apple-system,sans-serif">/ 60</text>
   </svg>`;
 }
- 
+
 // ── PAGES ────────────────────────────────────────────────────────────
- 
+
 function pageIntro() {
   return `${topbar()}
   <div class="intro-hero fade-in">
@@ -704,7 +815,7 @@ function pageIntro() {
   </div>
   <p class="disclaimer">이 도구는 참고용이며, 전문적인 법률·의료·정신건강 상담을 대체하지 않습니다.</p>`;
 }
- 
+
 function pageBanList() {
   const hasFlag = S.ban.some(Boolean);
   const canProceed = hasFlag || S.banNone;
@@ -737,7 +848,7 @@ function pageBanList() {
   </div>
   <p class="disclaimer">항목을 선택해야 다음으로 진행할 수 있어요</p>`;
 }
- 
+
 function pageCat(ci) {
   const cat = CATS[ci];
   const base = ci * 3;
@@ -775,31 +886,55 @@ function pageCat(ci) {
   </div>
   <p class="disclaimer">0 = 해당없음 &nbsp;|&nbsp; 4 = 항상 그렇다</p>`;
 }
- 
+
 function pageResults() {
   const score = total();
-  const lv = getLevel(score);
   const cs = catScores();
+  const lv = getEffectiveLevel(score, cs);
+  const baseLv = getLevel(score);
+  const wasLifted = lv !== baseLv;
   const dom = dominantCat();
   const hasBan = S.ban.some(Boolean);
- 
+  const criticalWarnings = getCriticalWarnings(cs);
+
   return `${topbar()}
+
+  <div class="fun-card fade-in">
+    <span class="fun-cat">${lv.cat}</span>
+    <div class="fun-mood">${lv.mood}</div>
+    <div class="fun-headline">${lv.headline}</div>
+    <div class="fun-sub">${lv.funSub}</div>
+    <div class="fun-score-wrap">
+      <span class="fun-score-n">${score}</span>
+      <span class="fun-score-denom">&nbsp;/ 60점</span>
+    </div>
+  </div>
+
   ${hasBan ? `<div class="card fade-in" style="border:2px solid #fecaca;margin-top:16px;">
     <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⚠️ 즉시 경고 항목이 있었어요</div>
     <p style="font-size:13px;color:#991b1b;line-height:1.65;">아래 점수와 별개로, 해당 항목은 외부 상담을 먼저 검토하세요.<br>
     📞 노동 상담 <a href="tel:1350" style="color:var(--red);font-weight:600;">1350</a> &nbsp;|&nbsp;
     📞 위기상담 <a href="tel:1393" style="color:var(--red);font-weight:600;">1393</a></p>
   </div>` : ''}
- 
+
+  ${criticalWarnings.map(w => `
+  <div class="card fade-in" style="border:2px solid #fecaca;margin-top:16px;">
+    <div style="font-size:13px;font-weight:700;color:var(--red);margin-bottom:6px;">
+      🚨 ${w.icon} ${w.label} 영역 — ${w.score}/12점
+    </div>
+    <p style="font-size:13px;color:#991b1b;line-height:1.65;">${w.msg}</p>
+  </div>`).join('')}
+
   <div class="card fade-in">
     <div class="result-hero">
       <div class="score-svg-wrap">${scoreSVG(score, lv.color)}</div>
       <span class="result-level" style="background:${lv.bg};color:${lv.color}">${lv.label}</span>
+      ${wasLifted ? `<p style="font-size:12px;color:var(--muted);margin-bottom:6px;">총점 ${score}점이지만 특정 영역이 위험 수준이에요</p>` : ''}
       <h2 class="result-h">${lv.title}</h2>
       <p class="result-p">${lv.desc}</p>
     </div>
   </div>
- 
+
   <div class="card fade-in">
     <div class="section-label" style="margin-bottom:16px;">영역별 점수</div>
     ${CATS.map((cat, i) => `
@@ -812,7 +947,7 @@ function pageResults() {
       </div>`).join('')}
     <p style="font-size:11px;color:var(--muted);margin-top:8px;text-align:right;">영역별 최대 12점</p>
   </div>
- 
+
   ${dom ? `<div class="card fade-in">
     <div class="section-label" style="margin-bottom:14px;">주요 유형</div>
     <div class="type-card">
@@ -824,7 +959,7 @@ function pageResults() {
       <div class="type-tips">${dom.tips.map(t => `<div class="type-tip">${t}</div>`).join('')}</div>
     </div>
   </div>` : ''}
- 
+
   <div class="card fade-in">
     <div class="section-label" style="margin-bottom:4px;">지금 할 일</div>
     <ul class="action-list">
@@ -834,7 +969,7 @@ function pageResults() {
       </li>`).join('')}
     </ul>
   </div>
- 
+
   <div class="note-box note-amber fade-in">
     <p>💬 <strong>2주 뒤에 다시 체크해보세요.</strong><br>
     같은 점수가 유지되거나 올라간다면 구조적인 문제일 가능성이 높습니다.<br><br>
@@ -842,16 +977,17 @@ function pageResults() {
     노동 관련 문제는 <a href="tel:1350">1350</a>(고용노동부),
     정신건강 위기는 <a href="tel:1393">1393</a>으로 연락해보세요.</p>
   </div>
- 
+
   <div class="btn-row" style="margin-top:16px;">
     <button class="btn btn-ghost" onclick="restart()">다시 진단하기</button>
     <button class="btn btn-primary" onclick="shareResult(${score}, '${lv.label}')">결과 공유하기</button>
   </div>
-  <p class="disclaimer">이 도구는 참고용이며, 전문적인 법률·의료·정신건강 상담을 대체하지 않습니다.</p>`;
+  <p class="disclaimer">이 도구는 참고용이며, 전문적인 법률·의료·정신건강 상담을 대체하지 않습니다.</p>
+  <p style="text-align:center;font-size:12px;color:#c4c4cc;padding:8px 0 4px;letter-spacing:0.04em;">made by Xienapapa</p>`;
 }
- 
+
 // ── RENDER ───────────────────────────────────────────────────────────
- 
+
 function render() {
   const app = document.getElementById('app');
   const html = (() => {
@@ -867,7 +1003,7 @@ function render() {
     }
   })();
   app.innerHTML = html;
- 
+
   // animate bars on results page
   if (S.step === 7) {
     const cs = catScores();
@@ -879,38 +1015,38 @@ function render() {
     });
   }
 }
- 
+
 // ── EVENTS ───────────────────────────────────────────────────────────
- 
+
 function go(step) {
   S.step = step;
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
- 
+
 function toggleBan(i) {
   S.ban[i] = !S.ban[i];
   if (S.ban[i]) S.banNone = false;
   render();
 }
- 
+
 function toggleNone() {
   S.banNone = !S.banNone;
   if (S.banNone) S.ban = new Array(7).fill(false);
   render();
 }
- 
+
 function setAns(qi, sc) {
   S.ans[qi] = sc;
   render();
 }
- 
+
 function restart() {
   S = { step: 0, ban: new Array(7).fill(false), banNone: false, ans: new Array(15).fill(null) };
   render();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
- 
+
 function shareResult(score, label) {
   const text = `퇴사 자가진단 결과: ${score}/60점 (${label})\n감정이 아닌 데이터로 퇴사를 판단해보세요!`;
   if (navigator.share) {
@@ -921,10 +1057,9 @@ function shareResult(score, label) {
     alert(text);
   }
 }
- 
+
 // ── INIT ─────────────────────────────────────────────────────────────
 render();
 </script>
 </body>
 </html>
- 
