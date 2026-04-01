@@ -1063,11 +1063,26 @@ function restart() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+// OG 메타태그 동적 업데이트
+function updateMetaTags(score, lv) {
+  const title = `${lv.cat} ${lv.mood} — ${score}/60점`;
+  const desc = `${lv.headline.replace(/\n/g, ' ')} | 나는 몇 점일까? → quitjob.vercel.app`;
+  const setMeta = (sel, val) => { const el = document.querySelector(sel); if (el) el.setAttribute('content', val); };
+  document.title = title;
+  setMeta('meta[property="og:title"]', title);
+  setMeta('meta[property="og:description"]', desc);
+  setMeta('meta[name="twitter:title"]', title);
+  setMeta('meta[name="twitter:description"]', desc);
+}
+
 function shareResult(score, label) {
   const encoded = S.ans.map(v => v ?? 0).join(',');
   const url = `${location.origin}${location.pathname}#r=${encoded}`;
 
-  // GA4 공유 이벤트 전송
+  const cs = catScores();
+  const lv = getEffectiveLevel(score, cs);
+  updateMetaTags(score, lv);
+
   gtag('event', 'share', {
     method: navigator.share ? 'native' : 'clipboard',
     content_type: 'result',
@@ -1077,8 +1092,8 @@ function shareResult(score, label) {
 
   if (navigator.share) {
     navigator.share({
-      title: '퇴사 자가진단 결과',
-      text: `나의 퇴사 필요도: ${score}/60점 (${label})\n너도 해봐 →`,
+      title: `${lv.cat} ${lv.mood} — ${score}/60점`,
+      text: `${lv.headline.replace(/\n/g, ' ')}\n나의 퇴사 필요도: ${score}/60점 (${label})\n너는 몇 점? →`,
       url,
     }).catch(() => {});
   } else if (navigator.clipboard) {
@@ -1099,9 +1114,15 @@ function shareResult(score, label) {
   const vals = match[1].split(',').map(Number);
   if (vals.length !== 15) { render(); return; }
 
-  S.ans = vals;
+S.ans = vals;
   S.banNone = true; // ban list는 없음으로 처리
   S.step = 7;
+
+  const sc = vals.reduce((a, b) => a + b, 0);
+  const cs = CATS.map((_, i) => vals[i*3] + vals[i*3+1] + vals[i*3+2]);
+  const lv = getEffectiveLevel(sc, cs);
+  updateMetaTags(sc, lv);
+
   render();
 })();
 </script>
