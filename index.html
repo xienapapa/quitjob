@@ -1064,9 +1064,16 @@ function restart() {
 }
 
 function shareResult(score, label) {
-  // 답변 15개를 URL 해시로 인코딩
   const encoded = S.ans.map(v => v ?? 0).join(',');
   const url = `${location.origin}${location.pathname}#r=${encoded}`;
+
+  // GA4 공유 이벤트 전송
+  gtag('event', 'share', {
+    method: navigator.share ? 'native' : 'clipboard',
+    content_type: 'result',
+    item_id: label,
+    value: score
+  });
 
   if (navigator.share) {
     navigator.share({
